@@ -63,34 +63,34 @@ param acrSku string = 'Basic'
 /* Variables */
 /* *************************************************************** */
 
-var openAiSettings = {
-  name: '${name}-openai'
-  sku: openAiSku
-  maxConversationTokens: '100'
-  maxCompletionTokens: '500'
-  completionsModel: {
-    name: 'gpt-35-turbo'
-    version: '0613'
-    deployment: {
-      name: 'completions'
-    }
-    sku: {
-      name: 'Standard'
-      capacity: 120
-    }
-  }
-  embeddingsModel: {
-    name: 'text-embedding-ada-002'
-    version: '2'
-    deployment: {
-      name: 'embeddings'
-    }
-    sku: {
-      name: 'Standard'
-      capacity: 120     
-    }
-  }
-}
+// var openAiSettings = {
+//   name: '${name}-openai'
+//   sku: openAiSku
+//   maxConversationTokens: '100'
+//   maxCompletionTokens: '500'
+//   completionsModel: {
+//     name: 'gpt-35-turbo'
+//     version: '0613'
+//     deployment: {
+//       name: 'completions'
+//     }
+//     sku: {
+//       name: 'Standard'
+//       capacity: 120
+//     }
+//   }
+//   embeddingsModel: {
+//     name: 'text-embedding-ada-002'
+//     version: '2'
+//     deployment: {
+//       name: 'embeddings'
+//     }
+//     sku: {
+//       name: 'Standard'
+//       capacity: 120     
+//     }
+//   }
+// }
 
 var mongovCoreSettings = {
   mongoClusterName: '${name}-mongo'
@@ -158,53 +158,53 @@ resource mongoFirewallRulesAllowAll 'Microsoft.DocumentDB/mongoClusters/firewall
 /* Azure OpenAI */
 /* *************************************************************** */
 
-resource openAiAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
-  name: openAiSettings.name
-  location: location
-  sku: {
-    name: openAiSettings.sku    
-  }
-  kind: 'OpenAI'
-  properties: {
-    customSubDomainName: openAiSettings.name
-    publicNetworkAccess: 'Enabled'
-  }
-}
+// resource openAiAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
+//   name: openAiSettings.name
+//   location: location
+//   sku: {
+//     name: openAiSettings.sku    
+//   }
+//   kind: 'OpenAI'
+//   properties: {
+//     customSubDomainName: openAiSettings.name
+//     publicNetworkAccess: 'Enabled'
+//   }
+// }
 
-resource openAiEmbeddingsModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
-  parent: openAiAccount
-  name: openAiSettings.embeddingsModel.deployment.name  
-  sku: {
-    name: openAiSettings.embeddingsModel.sku.name
-    capacity: openAiSettings.embeddingsModel.sku.capacity
-  }
-  properties: {
-    model: {
-      format: 'OpenAI'
-      name: openAiSettings.embeddingsModel.name
-      version: openAiSettings.embeddingsModel.version
-    }
-  }
-}
+// resource openAiEmbeddingsModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
+//   parent: openAiAccount
+//   name: openAiSettings.embeddingsModel.deployment.name  
+//   sku: {
+//     name: openAiSettings.embeddingsModel.sku.name
+//     capacity: openAiSettings.embeddingsModel.sku.capacity
+//   }
+//   properties: {
+//     model: {
+//       format: 'OpenAI'
+//       name: openAiSettings.embeddingsModel.name
+//       version: openAiSettings.embeddingsModel.version
+//     }
+//   }
+// }
 
-resource openAiCompletionsModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
-  parent: openAiAccount
-  name: openAiSettings.completionsModel.deployment.name
-  dependsOn: [
-    openAiEmbeddingsModelDeployment
-  ]
-  sku: {
-    name: openAiSettings.completionsModel.sku.name
-    capacity: openAiSettings.completionsModel.sku.capacity
-  }
-  properties: {
-    model: {
-      format: 'OpenAI'
-      name: openAiSettings.completionsModel.name
-      version: openAiSettings.completionsModel.version
-    }    
-  }
-}
+// resource openAiCompletionsModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
+//   parent: openAiAccount
+//   name: openAiSettings.completionsModel.deployment.name
+//   dependsOn: [
+//     openAiEmbeddingsModelDeployment
+//   ]
+//   sku: {
+//     name: openAiSettings.completionsModel.sku.name
+//     capacity: openAiSettings.completionsModel.sku.capacity
+//   }
+//   properties: {
+//     model: {
+//       format: 'OpenAI'
+//       name: openAiSettings.completionsModel.name
+//       version: openAiSettings.completionsModel.version
+//     }    
+//   }
+// }
 
 /* *************************************************************** */
 /* Logging and instrumentation */
@@ -312,15 +312,15 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-05-01' 
         sharedKey: logAnalytics.listKeys().primarySharedKey
       }
     }
-    workloadProfiles: [
-      {
-        name: 'Warm'
-        minimumCount: 1
-        maximumCount: 10
-        workloadProfileType: 'E4'
-      }
-    ]
-    infrastructureResourceGroup: 'ME_${resourceGroup().name}'
+    // workloadProfiles: [
+    //   {
+    //     name: 'Warm'
+    //     minimumCount: 1
+    //     maximumCount: 10
+    //     workloadProfileType: 'E4'
+    //   }
+    // ]
+    // infrastructureResourceGroup: 'ME_${resourceGroup().name}'
   }
 }
 
